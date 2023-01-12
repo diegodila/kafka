@@ -1,0 +1,39 @@
+o que é kafka?
+é uma plataforma de streaming de eventos distribuida de codigo aberto
+
+quais sao dimensoes do valor do dado?
+tempo e relação
+
+como o tempo pode influenciar a relação do dado?
+identificar uma fraude, 1 minuto depois ou 1 mes depois
+
+como a relação pode influenciar a relação do dado?
+vendas do dia, vendas da semana, vendas do ano agregando mais valor na informação
+
+quais são as caracteristicas que um dado pode ter?
+valor, volume, variedade e tempo (perdem o valor com tempo)
+
+faça uma analogia de que o apache kafka?
+streaming de musica, onde tem o consumidor de musica e produtor de musica, onde o produtor usa o streaming para disponibilizar para o consumidor ouvir. O produtor publica a musica no streaming e os consumidores consomem esse serviço. vantagem de o produtor colocar a musica e um unico lugar e consumidor consumir a musica em um unico lugar, uma vez publicada a musica, a musica estará diponivel quando o consumidor quiser ouvir
+
+quais sao os problemas de dados quando nao temos o apache kafka?
+o banco ficar indisponivel,
+demanda aumentar alem da capacidade do banco de dados,
+falha na partição,
+a mesma informação compartilhada para diferente sistemas
+sobrecarga (ritmos diferentes)
+perda de dados ou reprocessamento
+
+quais sao as principais vantagens do apache kafka? (enumere)
+1 os dados sao publicados uma unica vez
+
+2 quem tem interesse nos dados "assina" so o que interressa
+3produtores e consumidores desacoplado
+
+4 podem trabalhar em ritmos diferentes
+
+5 consumidores podem ler os dados mais de uma vez
+
+6 a indisponibilidade do produtor nao afeta o processo
+
+7 o kafka traz alta disponibilidade com capacidade de recursos em cluster
