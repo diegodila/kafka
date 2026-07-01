@@ -1,22 +1,22 @@
-o que é kafka?
+1.1 o que é kafka?
 é uma plataforma de streaming de eventos distribuida de codigo aberto
 
-quais sao dimensoes do valor do dado?
+1.2 quais sao dimensoes do valor do dado?
 tempo e relação
 
-como o tempo pode influenciar a relação do dado?
+1.3 como o tempo pode influenciar a relação do dado?
 identificar uma fraude, 1 minuto depois ou 1 mes depois
 
-como a relação pode influenciar a relação do dado?
+1.4 como a relação pode influenciar a relação do dado?
 vendas do dia, vendas da semana, vendas do ano agregando mais valor na informação
 
-quais são as caracteristicas que um dado pode ter?
+1.5 quais são as caracteristicas que um dado pode ter?
 valor, volume, variedade e tempo (perdem o valor com tempo)
 
-faça uma analogia de que o apache kafka?
+1.6 faça uma analogia de que o apache kafka?
 streaming de musica, onde tem o consumidor de musica e produtor de musica, onde o produtor usa o streaming para disponibilizar para o consumidor ouvir. O produtor publica a musica no streaming e os consumidores consomem esse serviço. vantagem de o produtor colocar a musica e um unico lugar e consumidor consumir a musica em um unico lugar, uma vez publicada a musica, a musica estará diponivel quando o consumidor quiser ouvir
 
-quais sao os problemas de dados quando nao temos o apache kafka?
+1.7 quais sao os problemas de dados quando nao temos o apache kafka?
 o banco ficar indisponivel,
 demanda aumentar alem da capacidade do banco de dados,
 falha na partição,
@@ -24,7 +24,7 @@ a mesma informação compartilhada para diferente sistemas
 sobrecarga (ritmos diferentes)
 perda de dados ou reprocessamento
 
-quais sao as principais vantagens do apache kafka? (enumere)
+1.8 quais sao as principais vantagens do apache kafka? (enumere)
 1 os dados sao publicados uma unica vez
 
 2 quem tem interesse nos dados "assina" so o que interressa
@@ -37,3 +37,111 @@ quais sao as principais vantagens do apache kafka? (enumere)
 6 a indisponibilidade do produtor nao afeta o processo
 
 7 o kafka traz alta disponibilidade com capacidade de recursos em cluster
+
+1.9 o que é escalar verticalmente?
+aumentar a capacidade de memoria (processamento)
+
+1.10 quais os problemas quando escalo verticalmente??
+existe um limite pequeno de escala, requer paradas (dificilmente consigo trocar a memoria sem parar a maquina), requer configuracoes complexas, problemas de incompatibilidade
+
+
+1.11 o que é escalar horizontalmente?
+ao inves de aumentar a memoria no equipamento, eu coloco mais equipamentos, onde nisso eu posso ter uma capacidade ilimitada
+
+1.12 vantagens de escalar verticalmente?
+nao requer parar o sistema para aumentas a capacidade, capacidade ilimitada, esse nó (cluster) tem manutencao mais simples, menos problemas de incompatibilidade, alta disponibilidade (tolerancia a falhas)
+
+1.13 o que é cluster?
+é uma rede de computadores (grupos) trabalhando em prol de um objetivo especifico (mesmo objetivo)
+
+1.14 uma rede de computadores é um cluster?
+nao, porque eles tem fins diferentes (objetivos diferentes)
+
+1.15 qual o conceito de particionamento?
+nao criar copias, e sim dividir os dados fisicamente, uma particao possui parte dos dados, a aplicacao consulta a particao que tem os dados de interesse
+ex: vendas de varejo ela tem filiais no brasil, onde dividimos em os dados particionados em 4 - regiao sul, regiao centro oeste e Norte, regiao sudeste, regiao nordeste
+
+1.16 qual o conceito de replicacao?
+eu pego as particoes dos dados e replico em diferentes servidores, assim tendo varias replicas e garantindo a consistencia, ele se aplica ao hack onde pode acontecer de um armario de servidores ficarem indisponiveis, onde o ideal as replicas ficarem em hacks diferentes
+
+1.17 qual o conceito de master slave em replicacao?
+normalmente a master é a particao que recebe escrita e replica as outras copias da escrita para slave, normalmente o master recebe todas as solicitacoes de escrita e slave podem responder a leitura e escrita
+
+1.18 quais os componentes do kafka?
+kafka broker
+kafka client api - kafka connect
+kafka streams
+kafka ksql
+
+1.19 o que é kafka broker?
+é nome do servico ou servidor do kafka recebe
+(intermediario, corretor ou agente) entre producers and consumers
+
+1.20 no kafka como funciona os nos do cluster?
+cada no do cluster pode rodar uma ou mais instancias do kafka broker. cada instancia eu posso ter um servidor, ou um servidor posso ter mais de uma instancia, se eles estiverem em diferentes servidores eles terao endereços de rede diferente, caso queira acessar varias instancias no mesmo servidor é so mudar a porta
+
+1.21 qual o papel do broker?
+Uma das funções do Kafka Broker é atribuir uma numeração sequencial às mensagens então os dados que são enviados do produtor ao Broker e que o consumidor ler do broker são chamadas de mensagens.
+
+1.21 porque os numeros sequenciais da mensagens do broker sao importantes?
+offset é a numeracao sequencial para que o consumidor ele saiba até onde leu as mensagens
+porque o consumidor le em ordem
+
+1.22 As mensagens do produtores no broker sao salvas em disco?
+sim e permite recuperar em falhas (consumidores)
+
+1.23 cada interface (produtores, consumidores) pode ter seu tempo proprio?
+sim
+
+1.24 existe um cluster controller?
+sim, e ele é escolhido aleatoriamente
+
+1.25 o que é bootstrap?
+é uma aplicacao que serve como porta de entrada para outras aplicacoes
+temos uma lista de brokers(servidores)
+cada um desses servidores tem topicos
+
+1.26 o que é equivalente ao topico no kafka?
+é equivalente as tabelas (assuntos) que as mensagens sao gravadas
+cada broker tem diferentes topicos,com diferente particoes das mensagens
+
+1.27 No kafka precisamos conhecer a estrutura do cluster?
+nao, ele faz a conecao com apenas um broker. Onde o broker conhece a estrutura e informa ao cliente, conexao broker é uma conexao ao cluster
+
+1.28 Cada broker pode ter uma ou mais topics e cada topic pode ter quantas particoes?
+sim, um broker pode ter n topics
+um topic pode ter n partitions
+e pode haver brokers que nao tenham particoes de determidados Topics
+
+ex em json: servidor1: { 
+    topic x: partition 0,
+    topic y: partition 0,
+}
+
+servidor2: {
+    topic x: partition 1,
+    topic y: partition 1, 
+}
+
+servidor3: {
+    topic z: partition 0,
+    topic y: partition 1, 
+}
+
+1.29 como funciona o controler?
+é o primeiro broker a entrar no cluster
+se o controler cai, os outros brokers tentam ser o controler, mas so um é eleito
+se o broker retorna, ele nao vai ser o controler
+
+1.30 com funciona as particoes no kafka especificamente?
+as particoes principais sao chamadas de Leaders, as copias sao chamadas de followers
+o numero de followers depende do fator de replicação 
+ex: se um topic tem 5 particoes. a primeira copia vai ser a copia leader, as outras serao os followers 
+
+1.31 como as particoes sao distribuida dentro de um cluster kafka?
+sao distribuidas feito uma balanceamento, sempre que possivel, copias devem estar em maquinas diferentes (tolerenacia a falhas) e os racks tambem sao considerados,pois o Rack inteiro pode falhar
+
+1.32 e como funciona a leader e follower de particoes e as particoes no broker?
+o broker pode ser leader ou follower de determidadas particoes, a particao leader é responsavel por todas as requisicoes de producers e consumers
+o producer recebe uma lista de leaders e decide para qual particao quer mandar os dados, o producer sempre mandda mensagem para o broker da particao leader
+o broker persiste a mensagem e retorna uma confirmacao (acknowledgment) o consumer tambem le a mensagem da particao leader
